@@ -23,11 +23,23 @@ const { NotImplementedError } = require('../lib');
  *  [1, 1, 1]
  * ]
  */
-function minesweeper(/* matrix */) {
-  // Remove line below and write your code here
-  throw new NotImplementedError('Not implemented');
+function minesweeper(matrix) {
+  function sliceArea(array, index) {
+    const start = index && index - 1;
+    return array.slice(start, index + 2);
+  }
+
+  return matrix.map((row, rowIndex) => {
+    const lines = sliceArea(matrix, rowIndex);
+
+    return row.map((isMine, columnIndex) => {
+      const filterArea = lines.flatMap((line) => sliceArea(line, columnIndex));
+
+      return filterArea.filter(Boolean).length - isMine;
+    });
+  });
 }
 
 module.exports = {
-  minesweeper
+  minesweeper,
 };
