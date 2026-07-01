@@ -20,14 +20,68 @@ const { NotImplementedError } = require('../lib');
  *
  */
 class VigenereCipheringMachine {
-  encrypt() {
-    // Remove line below and write your code here
-    throw new NotImplementedError('Not implemented');
+  #isReverse;
+
+  static #Direction = {
+    ENCRYPT: 1,
+    DECRYPT: -1,
+  };
+
+  constructor(isDirect = true) {
+    this.#isReverse = !isDirect;
   }
 
-  decrypt() {
-    // Remove line below and write your code here
-    throw new NotImplementedError('Not implemented');
+  encrypt(message, key) {
+    VigenereCipheringMachine.#validateMissedArguments(message, key);
+
+    return VigenereCipheringMachine.#transformMessage(
+      message.toUpperCase(),
+      key.toUpperCase(),
+      this.#isReverse,
+      VigenereCipheringMachine.#Direction.ENCRYPT,
+    );
+  }
+
+  decrypt(message, key) {
+    VigenereCipheringMachine.#validateMissedArguments(message, key);
+
+    return VigenereCipheringMachine.#transformMessage(
+      message.toUpperCase(),
+      key.toUpperCase(),
+      this.#isReverse,
+      VigenereCipheringMachine.#Direction.DECRYPT,
+    );
+  }
+
+  static #validateMissedArguments(...args) {
+    args.forEach((arg) => {
+      if (arg === undefined) throw new Error('Incorrect arguments!');
+    });
+  }
+
+  static #transformMessage(message, key, isReverse, direction) {
+    const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+    let keyIterator = 0;
+
+    const result = [...message].map((char) => {
+      if (/[^A-Z]/.test(char)) return char;
+
+      const [charIndex, keyCharIndex] = [
+        ALPHABET.indexOf(char),
+        ALPHABET.indexOf(key[keyIterator]),
+      ];
+
+      keyIterator = (keyIterator + 1) % key.length;
+
+      const index = (charIndex + keyCharIndex * direction) % ALPHABET.length;
+
+      return ALPHABET.at(index);
+    });
+
+    if (isReverse) result.reverse();
+
+    return result.join('');
   }
 }
 
