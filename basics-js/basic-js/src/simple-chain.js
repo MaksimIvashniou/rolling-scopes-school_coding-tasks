@@ -1,6 +1,4 @@
 const { decorateObject } = require('../lib');
-const { NotImplementedError } = require('../lib');
-
 /**
  * Implement chainMaker object according to task description
  *

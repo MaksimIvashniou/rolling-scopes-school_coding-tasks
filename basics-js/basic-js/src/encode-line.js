@@ -1,5 +1,3 @@
-const { NotImplementedError } = require('../lib');
-
 /**
  * Given a string, return its encoding version.
  *

@@ -1,5 +1,3 @@
-const { NotImplementedError } = require('../lib');
-
 /**
  * Given matrix where you have to find cats by ears "^^"
  *

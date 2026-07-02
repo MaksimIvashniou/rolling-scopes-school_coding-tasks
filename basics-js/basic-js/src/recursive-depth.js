@@ -1,5 +1,3 @@
-const { NotImplementedError } = require('../lib');
-
 /**
  * Implement class DepthCalculator with method calculateDepth
  * that calculates depth of nested array
